@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask Leaflet Website</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style> #mapita { height: 100vh; width: 100%; } body { margin: 0; } </style>
+</head>
+<body>
+    <div id="mapita"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var objeto_mapa = L.map('mapita').setView([4.57, -74.29], 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(objeto_mapa);
+
+        fetch('/datos')
+            .then(respuesta => respuesta.json())
+            .then(info => {
+                info.paises[0].deptos.forEach(depto => {
+                    depto.municipios.forEach(muni => {
+                        L.marker([muni.la, muni.lo]).addTo(objeto_mapa)
+                         .bindPopup(muni.n + " (" + depto.nombre + ")");
+                    });
+                });
+            });
+    </script>
+</body>
+</html>
