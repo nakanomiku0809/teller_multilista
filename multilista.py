@@ -57,7 +57,6 @@ class DobleLinkedList:
                 current.sublista.mostrar(level +1)
             current=current.next
     
-    def buscar(self,attr,value):
-        current=self.head
+    
 
         
