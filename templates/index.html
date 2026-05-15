@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>DIVIPOLA Multilista</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: white;
+        }
+
+        .mapa {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="map" class="mapa"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        const markers = {{ markers | tojson }};
+
+        const map = L.map("map").setView([4.5709, -74.2973], 6);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 18,
+            attribution: "OpenStreetMap"
+        }).addTo(map);
+
+        markers.forEach(function(marker) {
+            const text = "<b>" + marker.name + "</b><br>Departamento: " + marker.department;
+
+            L.marker([marker.lat, marker.lon])
+                .addTo(map)
+                .bindPopup(text);
+        });
+    </script>
+</body>
+</html>
